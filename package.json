@@ -15,7 +15,6 @@
     "validate:participants": "node scripts/validate-participants.mjs",
     "validate:wall": "node scripts/validate-wall.mjs",
     "scan:secrets": "node scripts/scan-secrets.mjs",
-    "check:hygiene": "node scripts/check-pr-hygiene.mjs",
     "seed:labels": "node scripts/seed-labels.mjs",
     "seed:issues": "node scripts/seed-issues.mjs",
     "scenario": "node scripts/scenario.mjs",

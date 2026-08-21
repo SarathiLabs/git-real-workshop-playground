@@ -30,7 +30,7 @@ git push -u origin HEAD
 
 Then open a pull request, fill in the template (`Closes #N`), request a review from another team, and wait for CI.
 
-Required checks: Lint, Test, Build, Validate workshop data, Scan for secrets. Conventions (advisory) nags in the log and does not fail the check.
+Required checks: Lint, Test, Build, Validate workshop data, Scan for secrets.
 
 ## Review
 

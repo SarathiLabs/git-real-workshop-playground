@@ -139,7 +139,7 @@ hotfix/ashes-production
 
 Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`, `hotfix`.
 
-This is not bureaucracy. Open the branch list on a repository with forty active branches and see how much faster you can find things when they are all named like this. An advisory CI check will nudge you if you forget.
+This is not bureaucracy. Open the branch list on a repository with forty active branches and see how much faster you can find things when they are all named like this.
 
 ## Done when
 

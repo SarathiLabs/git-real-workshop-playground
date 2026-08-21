@@ -166,7 +166,7 @@ docs: update setup instructions
 
 A commit is not Ctrl+S. It is a unit of history that somebody — probably you, in six months, at 11pm, trying to work out when something broke — is going to read.
 
-The convention here is `<type>: <what changed>`. Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`, `hotfix`. It is checked by an advisory CI job, which will tell you off without blocking you.
+The convention here is `<type>: <what changed>`. Types: `feat`, `fix`, `docs`, `test`, `refactor`, `chore`, `hotfix`.
 
 ## Stuck?
 
