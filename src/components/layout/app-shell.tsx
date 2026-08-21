@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Network,
   PenLine,
+  RefreshCw,
   Rocket,
   Users,
   UsersRound,
@@ -90,9 +91,22 @@ export function AppShell() {
             <ProductionStatusBadge large={presentationMode} />
             <span className="text-xs text-muted-foreground">
               {seconds === null ? 'Waiting for first sync' : `Last refreshed ${seconds} seconds ago`}
+              {data.connection.rateLimitRemaining !== null
+                ? ` · ${data.connection.rateLimitRemaining} API calls left`
+                : ''}
             </span>
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => void data.refetch()}
+              disabled={data.isFetching}
+              title="Fetch GitHub activity now. This is the only time the dashboard hits the API unless you turn polling back on."
+            >
+              <RefreshCw className={cn('h-4 w-4', data.isFetching && 'animate-spin')} />
+              Refresh
+            </Button>
             <ThemeToggle />
             {!presentationMode ? (
               <>

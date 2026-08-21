@@ -16,7 +16,7 @@ import { WallPage } from '@/pages/wall-page'
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
       retry: 1,
     },
   },
