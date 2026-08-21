@@ -11,6 +11,7 @@ import { ParticipantsPage } from '@/pages/participants-page'
 import { ProductionPage } from '@/pages/production-page'
 import { PullRequestsPage } from '@/pages/pull-requests-page'
 import { TeamsPage } from '@/pages/teams-page'
+import { WallPage } from '@/pages/wall-page'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path="network" element={<NetworkPage />} />
                 <Route path="participants" element={<ParticipantsPage />} />
                 <Route path="teams" element={<TeamsPage />} />
+                <Route path="wall" element={<WallPage />} />
                 <Route path="pull-requests" element={<PullRequestsPage />} />
                 <Route path="activity" element={<ActivityPage />} />
                 <Route path="challenges" element={<ChallengesPage />} />

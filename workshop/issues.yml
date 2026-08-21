@@ -1,0 +1,745 @@
+# Workshop backlog.
+#
+# Seed these into GitHub with:  npm run seed:issues -- --dry-run
+#                        then:  npm run seed:issues
+#
+# Fields
+#   key         stable identifier used by dependsOn, never shown on GitHub
+#   title       issue title
+#   labels      applied as-is, so they must exist (npm run seed:labels)
+#   dependsOn   list of keys that must be merged first; the seeder adds a
+#               "Blocked by #N" line, the `blocked` label, and a comment on
+#               the blocking issue so the link is visible from both sides
+#   body        markdown
+#
+# The dependsOn pairs are the important part. They are what turns forty
+# independent tasks into an organisation that has to talk to itself.
+
+# ---------------------------------------------------------------------------
+# Foundations. These block other work, so they go out first.
+# ---------------------------------------------------------------------------
+
+- key: format-relative-time
+  title: 'Implement the formatRelativeTime utility'
+  labels: ['workshop', 'cross-team', 'area:utils', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    `src/utils/format-relative-time.ts` currently throws. Two other teams are
+    waiting on it, so this one is worth picking up early.
+
+    It turns a timestamp into something a human reads without doing arithmetic:
+    `just now`, `3 minutes ago`, `2 hours ago`, `yesterday`, `12 Aug`.
+
+    **Done when**
+    - `describe.skip` in `src/utils/format-relative-time.test.ts` is unskipped and green
+    - The function never throws on a malformed or future date
+    - `npm test` passes
+
+    **Where to look**
+    `src/utils/format-relative-time.ts`, `src/utils/format-relative-time.test.ts`
+
+    Two teams import this the moment it lands. Keep the signature as it is, and
+    if you think it should change, say so on the pull request rather than just
+    changing it.
+
+- key: empty-state-component
+  title: 'Build a shared EmptyState component'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  body: |
+    Several pages render nothing at all when they have no data, which looks like
+    a bug rather than an empty list.
+
+    `src/components/ui/empty-state.tsx` is a stub. Make it a real component with
+    an icon, a title, an optional description, and an optional action slot.
+
+    **Done when**
+    - The component renders in both light and dark themes
+    - It follows the same conventions as the other primitives in `src/components/ui/`
+    - Two other teams can import it without changing it
+
+    **Where to look**
+    `src/components/ui/empty-state.tsx`, and any other file in `src/components/ui/` as a reference.
+
+    The skipped tests in `src/components/ui/empty-state.test.tsx` are the contract.
+    Unskip them, then make them pass.
+
+- key: sort-teams-activity
+  title: 'Sort teams by commits, pull requests, and reviews'
+  labels: ['workshop', 'cross-team', 'area:utils', 'area:tests', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    `sortTeams` in `src/utils/sort-teams.ts` only handles `name`. The other three
+    keys silently return the list unchanged, so the dropdown on the Teams page
+    looks broken.
+
+    The tests are already written. They are skipped so that `main` stays green.
+
+    **Done when**
+    - `describe.skip` becomes `describe` in `src/utils/sort-teams.test.ts`
+    - All four sort keys work, highest count first
+    - `sortTeams` does not mutate the array it is given
+
+    **Where to look**
+    `src/utils/sort-teams.ts`
+
+    Watch the Test check on your pull request go red the moment you unskip, then
+    green when you implement. That is the whole point of this one.
+
+- key: collaboration-score-rebalance
+  title: 'Rebalance the collaboration score'
+  labels: ['workshop', 'cross-team', 'area:utils', 'difficulty:intermediate', 'phase:code-review']
+  body: |
+    `calculateCollaborationScore` weights commits at 5 and reviews at 2, which
+    says that typing is worth more than reading somebody else's work. For a
+    workshop about collaboration that is the wrong message, and the number ends
+    up rewarding whoever committed most often.
+
+    **Done when**
+    - Reviews are worth more than commits
+    - Cross-team reviews are worth more than same-team reviews
+    - The existing tests in `src/utils/collaboration-score.test.ts` are updated to match
+    - The reasoning for your weights is written in the pull request description
+
+    **Where to look**
+    `src/utils/collaboration-score.ts`
+
+    There is no single right answer here. Defend your numbers in the pull request.
+
+# ---------------------------------------------------------------------------
+# Dependent work. These need a foundation issue merged first.
+# ---------------------------------------------------------------------------
+
+- key: last-refresh-clock
+  title: 'Make the last-refreshed label a live clock'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  dependsOn: [format-relative-time]
+  body: |
+    The header shows "Last refreshed 12 seconds ago" but the number is computed
+    once and then sits there until something else re-renders. On a projector
+    that is worse than showing nothing, because it looks live and is not.
+
+    **Done when**
+    - The label updates every second without a full page re-render
+    - It uses `formatRelativeTime` rather than its own arithmetic
+    - The interval is cleaned up when the component unmounts
+
+    **Where to look**
+    `src/components/layout/app-shell.tsx`
+
+- key: activity-feed-timestamps
+  title: 'Show relative timestamps in the activity feed'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  dependsOn: [format-relative-time]
+  body: |
+    Activity events carry an ISO timestamp that is never shown, so the feed has
+    no sense of time. Add a relative timestamp to each row.
+
+    **Done when**
+    - Each event shows how long ago it happened
+    - The value uses `formatRelativeTime`
+    - Long summaries still wrap sensibly next to it
+
+    **Where to look**
+    `src/components/activity/live-activity.tsx`, `src/pages/activity-page.tsx`
+
+- key: teams-page-sort-dropdown
+  title: 'Wire up the Teams page sort dropdown'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  dependsOn: [sort-teams-activity]
+  body: |
+    The dropdown exists and changing it does nothing visible, because the
+    underlying sort only supports names.
+
+    **Done when**
+    - Every option in the dropdown reorders the cards
+    - The current sort is obvious from looking at the page
+    - The selected option survives a re-render
+
+    **Where to look**
+    `src/pages/teams-page.tsx`
+
+- key: empty-pr-state
+  title: 'Improve the empty state on the Pull Requests page'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  dependsOn: [empty-state-component]
+  body: |
+    Before anybody opens a pull request, this page is a blank rectangle. New
+    participants read that as "the app is broken" rather than "there is nothing
+    here yet".
+
+    **Done when**
+    - The page uses the shared `EmptyState` component
+    - The copy tells the reader what to do next, not just that the list is empty
+    - The real list is unaffected once pull requests exist
+
+    **Where to look**
+    `src/pages/pull-requests-page.tsx`
+
+- key: empty-activity-state
+  title: 'Add an empty state to the Activity page'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  dependsOn: [empty-state-component]
+  body: |
+    Same problem as the Pull Requests page: nothing on screen when the feed is
+    empty, and nothing on screen while it is loading either.
+
+    **Done when**
+    - The page uses the shared `EmptyState` component when there is no activity
+    - Loading and empty look different from each other
+
+    **Where to look**
+    `src/pages/activity-page.tsx`
+
+- key: most-collaborative-panel
+  title: 'Turn on the Most Collaborative panel'
+  labels: ['workshop', 'cross-team', 'area:ui', 'difficulty:intermediate', 'phase:code-review']
+  dependsOn: [collaboration-score-rebalance]
+  body: |
+    `features.collaborationScore` is off, and the panel behind it needs the
+    rebalanced score to be worth showing.
+
+    **Done when**
+    - The flag is on and the panel renders a ranked list
+    - Ties are broken predictably rather than randomly
+    - Somebody with no activity does not appear in the top five
+
+    **Where to look**
+    `src/config/features.ts`, `src/components/workshop/most-collaborative.tsx`
+
+# ---------------------------------------------------------------------------
+# Starter work. Good first pull requests.
+# ---------------------------------------------------------------------------
+
+- key: dark-mode
+  title: 'Enable dark mode'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    Dark mode is fully implemented, and the toggle is hidden.
+
+    It stays hidden until **both** `features.darkMode` and `ENABLE_THEME_SWITCHER`
+    are true. Flipping one of them does nothing, which is deliberate: a feature
+    guarded by two flags is a real pattern, and it is a good reason to read a
+    file properly before changing it.
+
+    **Done when**
+    - The toggle appears in the header
+    - Both themes look right, including the graph and the badges
+    - You have actually looked at every page in dark mode
+
+    **Where to look**
+    `src/config/features.ts`, `src/components/layout/theme-toggle.tsx`
+
+- key: search-case-insensitive
+  title: 'Make participant search case-insensitive'
+  labels: ['workshop', 'good first issue', 'area:utils', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    Searching for `asha` does not find `Asha`. Searching by GitHub username does
+    not work at all.
+
+    **Done when**
+    - Search matches regardless of case
+    - It matches both the display name and the GitHub username
+    - There is a test covering both
+
+    **Where to look**
+    `src/utils/filter-participants.ts`, `src/utils/filter-participants.test.ts`
+
+- key: team-filter
+  title: 'Add team filtering to the Participants page'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    `features.teamFilter` is off and the filter is not built.
+
+    **Done when**
+    - You can narrow the list to a single team
+    - The filter combines with the search box rather than replacing it
+    - Clearing the filter brings everybody back
+
+    **Where to look**
+    `src/config/features.ts`, `src/pages/participants-page.tsx`, `src/utils/filter-participants.ts`
+
+- key: activity-ci-filter
+  title: 'The CI filter checkbox on the Activity page does nothing'
+  labels: ['bug', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:ci-cd']
+  body: |
+    There is a checkbox labelled for CI runs. Ticking it has no effect on the
+    list. A control that does nothing is worse than no control.
+
+    **Done when**
+    - Ticking the box filters the feed to CI events
+    - Unticking restores the full feed
+    - The behaviour is obvious without reading the code
+
+    **Where to look**
+    `src/pages/activity-page.tsx`
+
+- key: github-profile-link
+  title: 'Link to the GitHub profile from the participant drawer'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    The drawer shows a username but there is no way to get to the actual profile.
+
+    **Done when**
+    - The username links to `https://github.com/<username>`
+    - It opens in a new tab with `rel="noreferrer"`
+    - It is obviously a link
+
+    **Where to look**
+    `src/components/participants/participant-drawer.tsx`
+
+- key: reset-graph-button
+  title: 'The Reset Graph button is a placeholder'
+  labels: ['bug', 'good first issue', 'area:graph', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    The control exists in the graph toolbar and does nothing when clicked.
+
+    **Done when**
+    - Clicking it clears the filters and refits the view
+    - It does not reload the page to achieve that
+
+    **Where to look**
+    `src/components/graph/graph-controls.tsx`, `src/components/graph/collaboration-graph.tsx`
+
+- key: api-error-messages
+  title: 'API errors render the word "Error" and nothing else'
+  labels: ['bug', 'area:github-api', 'difficulty:starter', 'phase:ci-cd']
+  body: |
+    When the GitHub API fails, `GitHubErrorMini` shows `Error`. Rate limiting, a
+    bad token, and a network failure all look identical, so nobody can tell which
+    one it is.
+
+    **Done when**
+    - Rate limiting, authentication failure, and network failure read differently
+    - The message says what to do, not just what went wrong
+    - The raw error is still reachable for anybody debugging
+
+    **Where to look**
+    `src/components/workshop/github-status.tsx`, `src/services/github/errors.ts`
+
+- key: avatar-fallback
+  title: 'Contributor avatars break when there is no profile image'
+  labels: ['bug', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    The fallback is partially there and still leaves a broken image icon in some
+    cases.
+
+    **Done when**
+    - A missing avatar shows initials rather than a broken image
+    - It looks deliberate rather than like a failure
+
+    **Where to look**
+    `src/utils/aggregate-participant.ts`, `src/components/participants/participant-drawer.tsx`
+
+- key: graph-edge-tooltips
+  title: 'Add tooltips to graph edges'
+  labels: ['workshop', 'area:graph', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    Edges encode different relationships (authored, reviewed, member of) and on a
+    projector nobody can tell which is which.
+
+    **Done when**
+    - Hovering an edge explains the relationship in words
+    - The tooltip does not obscure the node it is describing
+
+    **Where to look**
+    `src/components/graph/collaboration-graph.tsx`, `src/components/graph/nodes.tsx`
+
+- key: team-card-reviews
+  title: 'Show review count on team cards'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:code-review']
+  body: |
+    Team cards show commits and pull requests but not reviews, which quietly
+    signals that reviewing does not count.
+
+    **Done when**
+    - Review count appears on each team card
+    - It matches what the graph shows for the same team
+
+    **Where to look**
+    `src/pages/teams-page.tsx`
+
+- key: team-spotlight-dynamic
+  title: 'Team Spotlight always highlights the same team'
+  labels: ['workshop', 'area:ui', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    The spotlight is effectively static, so it stops being interesting about four
+    minutes into the session.
+
+    **Done when**
+    - The spotlighted team is chosen from recent activity
+    - It changes over the session as different teams do things
+    - It does not flicker between two teams on every refresh
+
+    **Where to look**
+    `src/components/workshop/team-spotlight.tsx`
+
+- key: mobile-responsive
+  title: 'The dashboard is unusable on a phone'
+  labels: ['workshop', 'area:ui', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    The sidebar, header, and metric grid all assume a wide screen.
+
+    **Done when**
+    - The metric grid reflows instead of overflowing
+    - Navigation is reachable below the `lg` breakpoint
+    - Nothing scrolls sideways
+
+    **Where to look**
+    `src/components/layout/app-shell.tsx`, `src/components/workshop/global-metrics.tsx`
+
+- key: activity-loading-state
+  title: 'The Activity page jumps when data arrives'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  body: |
+    There is no loading state, so the page is blank and then abruptly full.
+
+    **Done when**
+    - A skeleton is shown while the first fetch is in flight
+    - The layout does not shift when real data replaces it
+
+    **Where to look**
+    `src/pages/activity-page.tsx`, `src/components/ui/skeleton.tsx`
+
+- key: latest-pr-on-profile
+  title: 'Show the latest pull request in the participant drawer'
+  labels: ['workshop', 'area:ui', 'difficulty:starter', 'phase:collaboration']
+  body: |
+    The drawer shows counts but not the actual work, so there is no way to jump
+    from a person to what they are doing right now.
+
+    **Done when**
+    - The most recent pull request is shown with its title and state
+    - It links to GitHub
+    - Somebody with no pull requests sees something sensible
+
+    **Where to look**
+    `src/components/participants/participant-drawer.tsx`
+
+- key: wall-highlight-self
+  title: 'Highlight your own entry on the Wall'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:branching']
+  body: |
+    The Wall gets long once the room has signed it, and finding your own line
+    means scanning sixty rows.
+
+    **Done when**
+    - There is a way to find your own entry quickly
+    - It works without a login, since the app has no accounts
+
+    **Where to look**
+    `src/pages/wall-page.tsx`
+
+- key: unregistered-contributors
+  title: 'Surface contributors who never registered'
+  labels: ['workshop', 'area:data', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    Somebody who commits without adding a participant file is invisible on the
+    dashboard, and the usual cause is a `user.email` that GitHub cannot match to
+    an account. Right now nobody finds out until the end.
+
+    **Done when**
+    - Contributors present in the GitHub data but missing from the roster are listed somewhere
+    - The message explains the likely cause rather than just naming them
+
+    **Where to look**
+    `src/hooks/use-workshop-data.ts`, `src/components/workshop/needs-attention.tsx`
+
+- key: participants-sort
+  title: 'Sort participants by activity'
+  labels: ['workshop', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    The Participants page is in one fixed order, so the people who need help are
+    mixed in with everybody else.
+
+    **Done when**
+    - You can sort by name and by activity
+    - Inactive participants are easy to find deliberately
+
+    **Where to look**
+    `src/pages/participants-page.tsx`
+
+- key: keyboard-shortcut-help
+  title: 'Keyboard shortcuts are undiscoverable'
+  labels: ['workshop', 'good first issue', 'area:ui', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    `P`, `F`, `N`, `A`, and `I` all do something, and nothing in the interface
+    says so.
+
+    **Done when**
+    - There is a way to see the shortcuts from inside the app
+    - It does not get in the way during presentation mode
+
+    **Where to look**
+    `src/hooks/use-keyboard-shortcuts.ts`, `src/data/workshop.json`
+
+# ---------------------------------------------------------------------------
+# Tests and tooling.
+# ---------------------------------------------------------------------------
+
+- key: test-activity-feed
+  title: 'Add tests for activity feed ordering'
+  labels: ['workshop', 'area:tests', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    `src/utils/activity-feed.ts` has no test file, and ordering is exactly the
+    kind of thing that breaks quietly.
+
+    **Done when**
+    - Events come back newest first
+    - Events with identical timestamps have a stable order
+    - Every event kind is covered
+
+    **Where to look**
+    `src/utils/activity-feed.ts`
+
+- key: test-metrics
+  title: 'Add tests for the metrics helpers'
+  labels: ['workshop', 'area:tests', 'difficulty:intermediate', 'phase:fundamentals']
+  body: |
+    `src/utils/metrics.ts` drives every number on the projector and has no tests.
+
+    **Done when**
+    - Global metrics are covered, including the empty-roster case
+    - Collaboration health is covered
+    - Needs-attention grouping is covered
+
+    **Where to look**
+    `src/utils/metrics.ts`
+
+- key: wire-up-oxlint
+  title: 'oxlint is configured but never runs'
+  labels: ['workshop', 'area:ci', 'difficulty:starter', 'phase:ci-cd']
+  body: |
+    `.oxlintrc.json` exists, `oxlint` is installed, and nothing invokes it. Dead
+    configuration is worse than none, because people assume it is protecting them.
+
+    **Done when**
+    - Either oxlint runs as part of `npm run lint` and CI, or the config and the
+      dependency are removed
+    - Whichever you choose, the reasoning is in the pull request
+
+    **Where to look**
+    `package.json`, `.oxlintrc.json`, `.github/workflows/ci.yml`
+
+- key: analytics-client
+  title: 'Add a basic analytics client'
+  labels: ['workshop', 'area:ci', 'difficulty:starter', 'phase:ci-cd']
+  body: |
+    We want to count page views during the workshop. The vendor gave us a key.
+
+    Create `src/config/analytics.ts` exporting a small client that reads the key
+    and sends an event on route change.
+
+    Put this in the file for now:
+
+    ```ts
+    const API_KEY = "workshop_secret_do_not_ship_this"
+    ```
+
+    We will move it somewhere better later.
+
+    **Done when**
+    - The client exists and compiles
+    - CI is green on your pull request
+
+    ---
+
+    *Facilitator note: this issue is written the way these requests actually
+    arrive. Let the participant follow it exactly. Read exercise 07 before
+    picking this one up. Do not use a provider-shaped token (`sk_live_…`,
+    `ghp_…`, `AKIA…`) here — GitHub push protection will refuse to push this
+    file, which is exactly why `scripts/scan-secrets.mjs` exists.*
+
+# ---------------------------------------------------------------------------
+# Documentation.
+# ---------------------------------------------------------------------------
+
+- key: docs-shortcuts
+  title: 'Document the keyboard shortcuts in the README'
+  labels: ['workshop', 'good first issue', 'area:docs', 'difficulty:starter', 'phase:fundamentals']
+  body: |
+    The root `README.md` is four lines long and covers installation only.
+
+    **Done when**
+    - The shortcuts are documented where somebody would look for them
+    - The README says what this project actually is
+
+    **Where to look**
+    `README.md`, `docs/README.md`
+
+- key: docs-review-examples
+  title: 'Add worked review examples to CONTRIBUTING'
+  labels: ['workshop', 'area:docs', 'difficulty:starter', 'phase:code-review']
+  body: |
+    CONTRIBUTING says to leave constructive comments and does not show what one
+    looks like. For most people this is their first code review in either
+    direction.
+
+    **Done when**
+    - There are examples of blocking feedback and optional suggestions, side by side
+    - There is an example of the same point phrased badly and phrased well
+
+    **Where to look**
+    `CONTRIBUTING.md`
+
+- key: docs-architecture-diagram
+  title: 'The architecture section is a directory listing'
+  labels: ['workshop', 'area:docs', 'difficulty:intermediate', 'phase:open-source']
+  body: |
+    `docs/README.md` shows the folder structure, which tells you where files are
+    and nothing about how data moves between them.
+
+    **Done when**
+    - There is a diagram of the flow from GitHub API to rendered dashboard
+    - A newcomer can find where to add a new metric by reading it
+
+    **Where to look**
+    `docs/README.md`
+
+# ---------------------------------------------------------------------------
+# Advanced.
+# ---------------------------------------------------------------------------
+
+- key: graph-team-clustering
+  title: 'Cluster graph nodes by team'
+  labels: ['workshop', 'area:graph', 'difficulty:advanced', 'phase:collaboration']
+  body: |
+    With forty teams the graph is a uniform cloud. Teams should be visually
+    grouped so the shape of the organisation is readable from the back of a room.
+
+    **Done when**
+    - Members of a team sit near each other
+    - Cross-team review edges are the visually interesting thing, because they cross gaps
+    - It still lays out in under a second with sixty nodes
+
+    **Where to look**
+    `src/utils/build-graph-model.ts`
+
+- key: graph-performance
+  title: 'The graph stutters with a full room'
+  labels: ['workshop', 'area:graph', 'difficulty:advanced', 'phase:advanced-git']
+  body: |
+    The graph rebuilds from scratch on every poll, which is every ten seconds.
+
+    **Done when**
+    - Node and edge construction is memoised on the inputs that actually changed
+    - Panning and zooming stay smooth during a refresh
+    - The measurement that shows the improvement is in the pull request
+
+    **Where to look**
+    `src/utils/build-graph-model.ts`, `src/components/graph/collaboration-graph.tsx`
+
+- key: persist-instructor-filters
+  title: 'Instructor filters reset on reload'
+  labels: ['workshop', 'area:ui', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    Reloading mid-session loses the phase, the highlighted team, and every filter.
+    On a projector that is a visible stumble.
+
+    **Done when**
+    - Instructor state survives a reload
+    - There is a way to clear it deliberately
+    - A first-time visitor still gets sensible defaults
+
+    **Where to look**
+    `src/stores/instructor-store.ts`
+
+- key: release-banner
+  title: 'Show a banner when a new release is tagged'
+  labels: ['workshop', 'area:ui', 'difficulty:intermediate', 'phase:open-source']
+  body: |
+    Releases are already fetched from the API and never shown outside the
+    Production page, so tagging a version changes nothing on screen.
+
+    **Done when**
+    - A new release is visible from any page
+    - It can be dismissed
+    - It does not reappear on every poll after being dismissed
+
+    **Where to look**
+    `src/hooks/use-workshop-data.ts`, `src/components/layout/app-shell.tsx`
+
+- key: review-latency-metric
+  title: 'Measure how long pull requests wait for review'
+  labels: ['workshop', 'area:github-api', 'difficulty:advanced', 'phase:code-review']
+  body: |
+    The dashboard counts reviews but says nothing about how long people wait for
+    one, which is usually the real bottleneck on a team.
+
+    **Done when**
+    - Median time from "review requested" to "first review" is computed
+    - It is displayed somewhere sensible
+    - Pull requests still awaiting a first review are counted separately rather than skewing the median
+
+    **Where to look**
+    `src/utils/metrics.ts`, `src/services/github/transform.ts`
+
+- key: achievement-toasts
+  title: 'Achievements unlock silently'
+  labels: ['workshop', 'area:ui', 'difficulty:advanced', 'phase:collaboration']
+  body: |
+    Achievements are computed and only visible if you open a specific drawer, so
+    nobody notices when one unlocks.
+
+    **Done when**
+    - A newly unlocked achievement is announced
+    - It does not fire for achievements that were already unlocked before the page loaded
+    - Presentation mode is not covered in popups
+
+    **Where to look**
+    `src/utils/aggregate-participant.ts`, `src/data/achievements.json`
+
+- key: export-roster
+  title: 'Export the roster and stats as CSV'
+  labels: ['workshop', 'area:data', 'difficulty:intermediate', 'phase:open-source']
+  body: |
+    There is no way to take a snapshot of the session away with you afterwards.
+
+    **Done when**
+    - A button downloads a CSV of participants with their stats
+    - It works without a server
+    - Commas and quotes in names do not break the file
+
+    **Where to look**
+    `src/pages/participants-page.tsx`
+
+- key: command-palette
+  title: 'Add a command palette'
+  labels: ['workshop', 'area:ui', 'difficulty:advanced', 'phase:advanced-git']
+  body: |
+    Navigating to a specific participant with forty teams in the room means a lot
+    of scrolling.
+
+    **Done when**
+    - A keyboard shortcut opens a search over pages, teams, and participants
+    - Selecting a participant opens their drawer
+    - It is fully keyboard operable, including Escape
+
+    **Where to look**
+    `src/hooks/use-keyboard-shortcuts.ts`, `src/components/layout/app-shell.tsx`
+
+- key: phase-timeline
+  title: 'Add a phase timeline to presentation mode'
+  labels: ['workshop', 'area:ui', 'difficulty:intermediate', 'phase:collaboration']
+  body: |
+    The current phase is a single badge. There is no sense of where the session
+    started or how far it has come.
+
+    **Done when**
+    - Presentation mode shows all phases with the current one marked
+    - Completed phases look different from upcoming ones
+    - It is legible from the back of a lecture hall
+
+    **Where to look**
+    `src/components/layout/app-shell.tsx`, `src/data/workshop.json`
+
+- key: first-contribution-badge
+  title: 'Mark first-time contributors'
+  labels: ['workshop', 'area:ui', 'difficulty:starter', 'phase:open-source']
+  body: |
+    For a lot of people in this room, the pull request they open today is the
+    first one of their life. That is worth marking.
+
+    **Done when**
+    - Somebody's first merged pull request is visibly marked
+    - The marker disappears once they have more than one
+
+    **Where to look**
+    `src/utils/aggregate-participant.ts`, `src/data/achievements.json`

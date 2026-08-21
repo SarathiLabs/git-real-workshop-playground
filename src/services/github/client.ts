@@ -3,6 +3,9 @@ import { GitHubApiError, parseRateLimit } from './errors'
 
 const API_BASE = 'https://api.github.com'
 
+// 1100ms. Looks arbitrary. It is not. `git blame` this line, then `git show`.
+const SECONDARY_RATE_LIMIT_BACKOFF_MS = 1100
+
 export interface GitHubRequestResult<T> {
   data: T
   rateLimitRemaining: number | null
@@ -14,7 +17,11 @@ export function getLastRateLimitRemaining() {
   return lastRateLimitRemaining
 }
 
-export async function githubRequest<T>(path: string): Promise<GitHubRequestResult<T>> {
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+export async function githubRequest<T>(path: string, attempt = 0): Promise<GitHubRequestResult<T>> {
   const headers: Record<string, string> = {
     Accept: 'application/vnd.github+json',
     'X-GitHub-Api-Version': '2022-11-28',
@@ -40,6 +47,11 @@ export async function githubRequest<T>(path: string): Promise<GitHubRequestResul
 
   if (response.status === 204) {
     return { data: [] as T, rateLimitRemaining }
+  }
+
+  if (response.status === 403 && rateLimitRemaining !== 0 && attempt === 0) {
+    await sleep(SECONDARY_RATE_LIMIT_BACKOFF_MS)
+    return githubRequest<T>(path, attempt + 1)
   }
 
   if (response.status === 403 && rateLimitRemaining === 0) {

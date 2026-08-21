@@ -1,0 +1,45 @@
+name: Bug report
+description: Something behaves differently from what it should.
+title: '[bug] '
+labels: ['bug']
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps. The most useful bug report is one somebody else can reproduce without asking you a question.
+      placeholder: |
+        1. Go to /activity
+        2. Tick the "CI runs" checkbox
+        3. Look at the list
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+      placeholder: Only CI events remain in the feed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      placeholder: The list does not change at all.
+    validations:
+      required: true
+
+  - type: input
+    id: commit
+    attributes:
+      label: Which commit or branch
+      description: Run `git rev-parse --short HEAD` and paste the result.
+      placeholder: a1b2c3d on main
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Console errors, screenshots, browser, whatever helps.

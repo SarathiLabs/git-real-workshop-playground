@@ -1,0 +1,13 @@
+diff --git a/src/utils/metrics.ts b/src/utils/metrics.ts
+index 782fa96..9dc4ae8 100644
+--- a/src/utils/metrics.ts
++++ b/src/utils/metrics.ts
+@@ -21,7 +21,7 @@ export function computeGlobalMetrics(
+   return {
+     developers: participants.length,
+     teams: teams.length,
+-    activeDevelopers: participants.filter((participant) => participant.isActive).length,
++    activeDevelopers: participants.filter((participant) => participant.isDisconnected).length,
+     commits: snapshot.commits.length,
+     branches: snapshot.branches.length,
+     openPrs: openPrs.length,

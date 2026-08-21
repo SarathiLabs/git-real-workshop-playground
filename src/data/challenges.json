@@ -4,69 +4,95 @@
     "phase": "SETUP",
     "title": "Clone the playground",
     "summary": "Clone the repository, create a feature branch, and confirm git status is clean on main.",
-    "skills": ["clone", "status", "branch"]
+    "skills": ["clone", "status", "branch"],
+    "exercise": "exercises/01-setup-and-register.md"
   },
   {
     "id": "first-commit",
     "phase": "FUNDAMENTALS",
     "title": "Make your first commit",
     "summary": "Edit a workshop file, inspect the diff, and create a clear conventional commit.",
-    "skills": ["add", "commit", "log"]
+    "skills": ["add", "commit", "log"],
+    "exercise": "exercises/02-fundamentals.md"
   },
   {
     "id": "feature-branch",
     "phase": "BRANCHING",
     "title": "Ship from a feature branch",
     "summary": "Create a named branch for an Issue, push it, and open a Pull Request against main.",
-    "skills": ["branch", "push", "pull-request"]
+    "skills": ["branch", "push", "pull-request"],
+    "exercise": "exercises/03-branching.md"
+  },
+  {
+    "id": "sign-the-wall",
+    "phase": "BRANCHING",
+    "title": "Sign the wall",
+    "summary": "Edit the same three lines as everyone else. Resolve the conflict that follows.",
+    "skills": ["merge", "conflict", "status"],
+    "exercise": "exercises/04-the-wall.md"
   },
   {
     "id": "cross-team-pr",
     "phase": "COLLABORATION",
     "title": "Collaborate across teams",
     "summary": "Request a review from another team and leave a constructive comment on their PR.",
-    "skills": ["review", "comment", "teams"]
+    "skills": ["review", "comment", "teams"],
+    "exercise": "exercises/05-issue-to-pr.md"
   },
   {
     "id": "request-changes",
     "phase": "CODE_REVIEW",
     "title": "Review like a maintainer",
     "summary": "Approve or request changes on a peer PR. Explain why, not just what.",
-    "skills": ["code-review", "approve", "request-changes"]
+    "skills": ["code-review", "approve", "request-changes"],
+    "exercise": "exercises/06-code-review.md"
   },
   {
     "id": "fix-ci",
     "phase": "CI_CD",
     "title": "Make CI green",
     "summary": "Inspect a failing GitHub Actions run, fix the cause, and push so CI reruns.",
-    "skills": ["actions", "logs", "ci"]
+    "skills": ["actions", "logs", "ci"],
+    "exercise": "exercises/07-ci.md"
   },
   {
     "id": "production-incident",
     "phase": "INCIDENT",
     "title": "Recover production",
     "summary": "Use git log, show, blame, and revert to find and undo the change that degraded production.",
-    "skills": ["log", "show", "blame", "revert"]
+    "skills": ["log", "show", "blame", "revert"],
+    "exercise": "exercises/08-incident.md"
   },
   {
     "id": "bisect-bug",
     "phase": "ADVANCED_GIT",
     "title": "Bisect a regression",
     "summary": "Use git bisect to locate the commit that introduced a workshop bug.",
-    "skills": ["bisect", "checkout", "history"]
+    "skills": ["bisect", "checkout", "history"],
+    "exercise": "exercises/09-advanced-git.md"
   },
   {
     "id": "release-notes",
     "phase": "OPEN_SOURCE",
     "title": "Cut a workshop release",
     "summary": "Help draft release notes from merged PRs and tag a version after maintainer merge.",
-    "skills": ["releases", "tags", "changelog"]
+    "skills": ["releases", "tags", "changelog"],
+    "exercise": "exercises/10-release.md"
+  },
+  {
+    "id": "fork-and-contribute",
+    "phase": "OPEN_SOURCE",
+    "title": "Contribute from a fork",
+    "summary": "Leave the org workflow. Fork, add upstream, and open a pull request from your copy.",
+    "skills": ["fork", "upstream", "pull-request"],
+    "exercise": "exercises/11-open-source.md"
   },
   {
     "id": "wrap-up",
     "phase": "COMPLETE",
     "title": "Look at the network",
     "summary": "The graph should now look like an engineering organization. Find your node and the edges you created.",
-    "skills": ["collaboration", "network"]
+    "skills": ["collaboration", "network"],
+    "exercise": "exercises/README.md"
   }
 ]

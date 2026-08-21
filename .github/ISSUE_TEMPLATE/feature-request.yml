@@ -1,0 +1,38 @@
+name: Feature request
+description: Propose something the dashboard should be able to do.
+title: '[feature] '
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: >
+        Start with the person and the problem, not the solution. "Instructors cannot tell which
+        teams have stalled" is a problem. "Add a table" is a solution looking for one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What else you considered
+      description: Including "do nothing". Saying why the obvious cheaper option is not enough makes this much easier to approve.
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      options:
+        - starter
+        - intermediate
+        - advanced
+    validations:
+      required: true
