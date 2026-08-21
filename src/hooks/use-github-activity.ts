@@ -7,8 +7,10 @@ export function useGitHubActivity() {
   const query = useQuery<GitHubSnapshot, GitHubApiError>({
     queryKey: ['github-activity', isMockMode() ? 'mock' : 'live'],
     queryFn: fetchGithubSnapshot,
-    refetchInterval: env.refreshIntervalMs,
-    refetchOnWindowFocus: true,
+    staleTime: Infinity,
+    refetchInterval: env.refreshIntervalMs > 0 ? env.refreshIntervalMs : false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     placeholderData: keepPreviousData,
     retry: 1,
   })

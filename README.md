@@ -29,10 +29,10 @@ VITE_GITHUB_TOKEN=
 VITE_GITHUB_OWNER=SarathiLabs
 VITE_GITHUB_REPO=git-real-workshop-playground
 VITE_USE_MOCK_GITHUB=false
-VITE_REFRESH_INTERVAL_MS=10000
+VITE_REFRESH_INTERVAL_MS=0
 ```
 
-Set `VITE_GITHUB_TOKEN` to a **read-only** GitHub token, then restart `npm run dev`.
+Set `VITE_GITHUB_TOKEN` to a **read-only** GitHub token in `git-real-workshop-playground/.env` (not a parent folder), then restart `npm run dev`. Leave `VITE_REFRESH_INTERVAL_MS` at `0` so the dashboard only hits GitHub on load and when you click **Refresh**.
 
 ## Keyboard shortcuts
 
