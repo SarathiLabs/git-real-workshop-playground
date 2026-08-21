@@ -1,0 +1,38 @@
+[
+  {
+    "id": "first_commit",
+    "title": "First Commit",
+    "description": "Landed at least one commit on the playground repository.",
+    "rule": "commits >= 1"
+  },
+  {
+    "id": "first_pr",
+    "title": "First Pull Request",
+    "description": "Opened a Pull Request.",
+    "rule": "pullRequests >= 1"
+  },
+  {
+    "id": "first_review",
+    "title": "First Review",
+    "description": "Reviewed someone else's Pull Request.",
+    "rule": "reviews >= 1"
+  },
+  {
+    "id": "cross_team_review",
+    "title": "Bridge Builder",
+    "description": "Reviewed a Pull Request authored by another team.",
+    "rule": "crossTeamReviews >= 1"
+  },
+  {
+    "id": "merged_pr",
+    "title": "Merged",
+    "description": "Had a Pull Request merged into main.",
+    "rule": "mergedPullRequests >= 1"
+  },
+  {
+    "id": "ci_fixer",
+    "title": "CI Fixer",
+    "description": "Pushed a change that turned a failing workflow green.",
+    "rule": "ciFixes >= 1"
+  }
+]
