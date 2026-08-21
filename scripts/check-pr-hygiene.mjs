@@ -4,10 +4,9 @@
  *
  * Branch naming, commit messages, and pull request size.
  *
- * This runs as a SEPARATE workflow from ci.yml and is deliberately left out of
- * the required checks. A red mark that still lets you merge is a different
- * thing from a red mark that blocks you, and seeing both on the same pull
- * request is the clearest way to explain branch protection.
+ * This runs as a SEPARATE workflow from ci.yml and is left out of the
+ * required checks. The workflow job uses continue-on-error, so a warning
+ * here does not fail the GitHub check. That is what "advisory" means.
  */
 import { execFileSync } from 'node:child_process'
 import { annotate, color, symbol } from './lib/console.mjs'

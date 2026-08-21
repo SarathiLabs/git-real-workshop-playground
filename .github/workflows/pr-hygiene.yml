@@ -1,10 +1,8 @@
 name: PR Hygiene
 
 # Advisory only. This workflow is deliberately NOT in the required checks list
-# for main, so it can go red without blocking a merge.
-#
-# That contrast is the lesson: some checks are advice, some are gates, and
-# knowing which is which is part of working in a real repository.
+# for main. The job uses continue-on-error so a size/convention nag does not
+# show as a failed check next to Lint/Test/Build.
 
 on:
   pull_request:
@@ -17,6 +15,10 @@ jobs:
   hygiene:
     name: Conventions (advisory)
     runs-on: ubuntu-latest
+    # A failed step still shows in the log. This flag stops GitHub from
+    # treating the whole check as a failure, which is what "advisory" means:
+    # visible, nagging, and not a gate.
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
         with:
