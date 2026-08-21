@@ -1,3 +1,5 @@
+export const appVersion = typeof __APP_VERSION__ === 'string' ? __APP_VERSION__ : '0.0.0'
+
 export const env = {
   githubToken: import.meta.env.VITE_GITHUB_TOKEN ?? '',
   githubOwner: import.meta.env.VITE_GITHUB_OWNER ?? 'SarathiLabs',

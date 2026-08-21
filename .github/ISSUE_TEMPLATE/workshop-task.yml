@@ -1,0 +1,55 @@
+name: Workshop task
+description: A scoped piece of work a team can finish in one workshop segment.
+title: '[task] '
+labels: ['workshop']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Most of the work in this repository starts as one of these. Keep it small enough
+        that one team can finish it, get it reviewed, and get it merged inside one segment.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong or missing right now
+      description: Describe the current behaviour, not the fix. A reviewer should be able to reproduce it.
+      placeholder: The Teams page has a sort dropdown, but choosing "Pull requests" does nothing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: What should be true when this is done
+      description: The acceptance criteria. Be specific enough that somebody else can tell whether you finished.
+      placeholder: |
+        - Choosing "Pull requests" reorders the cards, highest count first
+        - The skipped tests in sort-teams.test.ts are unskipped and passing
+    validations:
+      required: true
+
+  - type: input
+    id: files
+    attributes:
+      label: Where to look
+      description: The file or files most likely to change. A guess is fine.
+      placeholder: src/utils/sort-teams.ts, src/pages/teams-page.tsx
+
+  - type: input
+    id: blocked-by
+    attributes:
+      label: Blocked by
+      description: If another Issue has to land first, put its number here.
+      placeholder: '#12'
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      options:
+        - starter
+        - intermediate
+        - advanced
+    validations:
+      required: true

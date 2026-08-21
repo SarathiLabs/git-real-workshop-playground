@@ -1,8 +1,13 @@
 import { challenges } from '@/data/load'
+import { env } from '@/config/env'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useInstructorStore } from '@/stores/instructor-store'
 import { cn } from '@/lib/utils'
+
+function exerciseUrl(path: string) {
+  return `https://github.com/${env.githubOwner}/${env.githubRepo}/blob/main/${path}`
+}
 
 export function ChallengesPage() {
   const phase = useInstructorStore((state) => state.phase)
@@ -33,6 +38,16 @@ export function ChallengesPage() {
                 </Badge>
               ))}
             </div>
+            {challenge.exercise ? (
+              <a
+                href={exerciseUrl(challenge.exercise)}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 inline-block text-sm text-primary underline-offset-4 hover:underline"
+              >
+                Open {challenge.exercise}
+              </a>
+            ) : null}
           </CardContent>
         </Card>
       ))}

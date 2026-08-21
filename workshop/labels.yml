@@ -1,0 +1,110 @@
+# Labels for the workshop repository.
+# Apply with: npm run seed:labels
+
+- name: workshop
+  color: '5319E7'
+  description: Scoped work sized for one workshop segment
+
+- name: good first issue
+  color: '7057FF'
+  description: A safe place to start if this is your first pull request
+
+- name: blocked
+  color: 'B60205'
+  description: Waiting on another Issue to be merged first
+
+- name: cross-team
+  color: '0E8A16'
+  description: Needs two or more teams to coordinate
+
+- name: bug
+  color: 'D73A4A'
+  description: Something behaves differently from what it should
+
+- name: enhancement
+  color: 'A2EEEF'
+  description: A new capability
+
+- name: incident
+  color: 'B60205'
+  description: Production is degraded or down
+
+- name: priority:high
+  color: 'D93F0B'
+  description: Pick this up before other work
+
+- name: difficulty:starter
+  color: 'C2E0C6'
+  description: Small and self-contained
+
+- name: difficulty:intermediate
+  color: 'FEF2C0'
+  description: Touches more than one file, or needs a decision
+
+- name: difficulty:advanced
+  color: 'F9D0C4'
+  description: Needs care, and probably a conversation on the pull request
+
+- name: area:ui
+  color: '1D76DB'
+  description: Pages and components
+
+- name: area:data
+  color: '1D76DB'
+  description: Roster, teams, wall, and other workshop data
+
+- name: area:graph
+  color: '1D76DB'
+  description: The collaboration network
+
+- name: area:github-api
+  color: '1D76DB'
+  description: Fetching and transforming GitHub data
+
+- name: area:utils
+  color: '1D76DB'
+  description: Shared logic that other code depends on
+
+- name: area:tests
+  color: '1D76DB'
+  description: Test coverage
+
+- name: area:ci
+  color: '1D76DB'
+  description: Workflows, scripts, and automation
+
+- name: area:docs
+  color: '1D76DB'
+  description: Documentation and exercises
+
+- name: phase:fundamentals
+  color: 'BFD4F2'
+  description: Fits the fundamentals segment
+
+- name: phase:branching
+  color: 'BFD4F2'
+  description: Fits the branching segment
+
+- name: phase:collaboration
+  color: 'BFD4F2'
+  description: Fits the collaboration segment
+
+- name: phase:code-review
+  color: 'BFD4F2'
+  description: Fits the code review segment
+
+- name: phase:ci-cd
+  color: 'BFD4F2'
+  description: Fits the CI/CD segment
+
+- name: phase:incident
+  color: 'BFD4F2'
+  description: Fits the incident segment
+
+- name: phase:advanced-git
+  color: 'BFD4F2'
+  description: Fits the advanced Git segment
+
+- name: phase:open-source
+  color: 'BFD4F2'
+  description: Fits the open source segment

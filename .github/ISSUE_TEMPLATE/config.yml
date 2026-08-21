@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Workshop exercises
+    url: https://github.com/SarathiLabs/git-real-workshop-playground/tree/main/exercises
+    about: The self-paced track. Start here if you are not sure what to work on.
+  - name: Contributing guide
+    url: https://github.com/SarathiLabs/git-real-workshop-playground/blob/main/CONTRIBUTING.md
+    about: Branch naming, commit style, and how to get a pull request reviewed.

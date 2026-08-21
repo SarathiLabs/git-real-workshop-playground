@@ -1,0 +1,56 @@
+name: Production incident
+description: Production is degraded or down. Use this during the incident segment.
+title: '[incident] '
+labels: ['incident', 'priority:high']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        File this **first**, then investigate. An incident issue is where everybody looks
+        to find out what is already known, so that six people do not debug the same thing.
+
+  - type: input
+    id: detected
+    attributes:
+      label: When was it noticed
+      placeholder: '14:32, Production page went from HEALTHY to DEGRADED'
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: What is broken, from a user's point of view
+      description: Not the stack trace. What can somebody no longer do?
+    validations:
+      required: true
+
+  - type: input
+    id: suspect
+    attributes:
+      label: Suspected commit
+      description: Once you have run git log and git blame, put the short SHA here.
+      placeholder: a1b2c3d
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline
+      description: Append as you go. This is what a real postmortem is built from.
+      value: |
+        - detected:
+        - first responder:
+        - suspected cause:
+        - mitigation:
+        - resolved:
+
+  - type: dropdown
+    id: mitigation
+    attributes:
+      label: Planned mitigation
+      options:
+        - Revert the offending commit
+        - Roll forward with a fix
+        - Not decided yet
+    validations:
+      required: true

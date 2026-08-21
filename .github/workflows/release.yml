@@ -1,0 +1,55 @@
+name: Release
+
+# Pushing a tag that looks like v1.2.3 publishes a GitHub Release.
+#
+# Tagging is the moment a commit stops being "some code on main" and becomes
+# a named thing you can point at, roll back to, and talk about.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Tags and full history, so the notes can be built from the range
+          # since the previous release.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # A tag that does not build is worse than no tag, because people trust it.
+      - name: Verify the tagged commit
+        run: |
+          npm run lint
+          npm test
+          npm run build
+
+      - name: Build release notes
+        id: notes
+        run: |
+          PREVIOUS=$(git tag --sort=-version:refname | grep -v "^${GITHUB_REF_NAME}$" | head -n 1)
+          echo "Previous tag: ${PREVIOUS:-none}"
+          if [ -n "$PREVIOUS" ]; then
+            node scripts/release-notes.mjs --since="$PREVIOUS" --version="${GITHUB_REF_NAME}" > notes.md
+          else
+            node scripts/release-notes.mjs --version="${GITHUB_REF_NAME}" > notes.md
+          fi
+          cat notes.md
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" --title "${GITHUB_REF_NAME}" --notes-file notes.md

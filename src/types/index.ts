@@ -29,12 +29,26 @@ export interface Team {
   category: string
 }
 
+export interface WallEntry {
+  github: string
+  team: string
+  shipped: string
+}
+
+export interface Wall {
+  engineersOnboard: number
+  lastUpdatedBy: string
+  entries: WallEntry[]
+}
+
 export interface Challenge {
   id: string
   phase: WorkshopPhase
   title: string
   summary: string
   skills: string[]
+  /** Path from the repo root to the self-paced exercise, e.g. exercises/04-the-wall.md */
+  exercise?: string
 }
 
 export interface AchievementDefinition {

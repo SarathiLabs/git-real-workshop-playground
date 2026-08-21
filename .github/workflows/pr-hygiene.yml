@@ -1,0 +1,38 @@
+name: PR Hygiene
+
+# Advisory only. This workflow is deliberately NOT in the required checks list
+# for main, so it can go red without blocking a merge.
+#
+# That contrast is the lesson: some checks are advice, some are gates, and
+# knowing which is which is part of working in a real repository.
+
+on:
+  pull_request:
+
+concurrency:
+  group: hygiene-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hygiene:
+    name: Conventions (advisory)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the script can compare this branch against the base.
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Fetch base branch
+        run: git fetch --no-tags origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check branch name, commits, and size
+        env:
+          PR_BASE_REF: ${{ github.base_ref }}
+          PR_HEAD_REF: ${{ github.head_ref }}
+        run: npm run check:hygiene

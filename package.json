@@ -9,7 +9,17 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "doctor": "node scripts/doctor.mjs",
+    "validate": "npm run validate:participants && npm run validate:wall",
+    "validate:participants": "node scripts/validate-participants.mjs",
+    "validate:wall": "node scripts/validate-wall.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "check:hygiene": "node scripts/check-pr-hygiene.mjs",
+    "seed:labels": "node scripts/seed-labels.mjs",
+    "seed:issues": "node scripts/seed-issues.mjs",
+    "scenario": "node scripts/scenario.mjs",
+    "release:notes": "node scripts/release-notes.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
@@ -53,6 +63,7 @@
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.0",
     "vite": "^8.2.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "yaml": "^2.9.0"
   }
 }

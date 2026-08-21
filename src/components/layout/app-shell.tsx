@@ -5,10 +5,12 @@ import {
   GitPullRequest,
   LayoutDashboard,
   Network,
+  PenLine,
   Rocket,
   Users,
   UsersRound,
 } from 'lucide-react'
+import { appVersion } from '@/config/env'
 import { workshop } from '@/data/load'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -28,6 +30,7 @@ const NAV = [
   { to: '/network', label: 'Network', icon: Network },
   { to: '/participants', label: 'Participants', icon: Users },
   { to: '/teams', label: 'Teams', icon: UsersRound },
+  { to: '/wall', label: 'The Wall', icon: PenLine },
   { to: '/pull-requests', label: 'Pull Requests', icon: GitPullRequest },
   { to: '/activity', label: 'Activity', icon: Activity },
   { to: '/challenges', label: 'Challenges', icon: Flag },
@@ -81,6 +84,9 @@ export function AppShell() {
         <header className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
           <div className="flex flex-wrap items-center gap-3">
             <Badge variant="outline">{phase.replaceAll('_', ' ')}</Badge>
+            <Badge variant="secondary" title="Tag a release to change this">
+              v{appVersion}
+            </Badge>
             <ProductionStatusBadge large={presentationMode} />
             <span className="text-xs text-muted-foreground">
               {seconds === null ? 'Waiting for first sync' : `Last refreshed ${seconds} seconds ago`}

@@ -1,6 +1,34 @@
-# Git Real workshop CODEOWNERS
-# Teaching artifact for branch protection and review routing.
+# CODEOWNERS routes reviews automatically.
+#
+# When a pull request touches a path below, GitHub requests a review from the
+# owner without anybody having to ask. Combined with "Require review from Code
+# Owners" in the branch ruleset, it means certain parts of the codebase cannot
+# change without the person responsible for them looking at it.
+#
+# The last matching pattern wins, so ordering matters: general rules first,
+# specific ones after.
 
-* @SarathiLabs/maintainers
-src/data/ @SarathiLabs/instructors
-.github/ @SarathiLabs/maintainers
+# Everything, unless something below overrides it.
+*                       @SarathiLabs/maintainers
+
+# Workshop roster and scenario data. Instructors own this because a bad merge
+# here breaks the dashboard for the whole room.
+/src/data/              @SarathiLabs/instructors
+
+# Automation and repository configuration.
+/.github/               @SarathiLabs/maintainers
+/scripts/               @SarathiLabs/maintainers
+/workshop/              @SarathiLabs/instructors
+
+# Shared utilities that several teams depend on. A change here can break
+# another team's branch, so it gets an extra pair of eyes.
+/src/utils/             @SarathiLabs/maintainers
+/src/services/github/   @SarathiLabs/maintainers
+
+# Design-system primitives. Everything imports these.
+/src/components/ui/     @SarathiLabs/maintainers
+
+# Docs and exercises are the least risky thing to change, and are a good
+# first contribution.
+/docs/                  @SarathiLabs/instructors
+/exercises/             @SarathiLabs/instructors
