@@ -1,0 +1,72 @@
+[
+  {
+    "id": "setup-clone",
+    "phase": "SETUP",
+    "title": "Clone the playground",
+    "summary": "Clone the repository, create a feature branch, and confirm git status is clean on main.",
+    "skills": ["clone", "status", "branch"]
+  },
+  {
+    "id": "first-commit",
+    "phase": "FUNDAMENTALS",
+    "title": "Make your first commit",
+    "summary": "Edit a workshop file, inspect the diff, and create a clear conventional commit.",
+    "skills": ["add", "commit", "log"]
+  },
+  {
+    "id": "feature-branch",
+    "phase": "BRANCHING",
+    "title": "Ship from a feature branch",
+    "summary": "Create a named branch for an Issue, push it, and open a Pull Request against main.",
+    "skills": ["branch", "push", "pull-request"]
+  },
+  {
+    "id": "cross-team-pr",
+    "phase": "COLLABORATION",
+    "title": "Collaborate across teams",
+    "summary": "Request a review from another team and leave a constructive comment on their PR.",
+    "skills": ["review", "comment", "teams"]
+  },
+  {
+    "id": "request-changes",
+    "phase": "CODE_REVIEW",
+    "title": "Review like a maintainer",
+    "summary": "Approve or request changes on a peer PR. Explain why, not just what.",
+    "skills": ["code-review", "approve", "request-changes"]
+  },
+  {
+    "id": "fix-ci",
+    "phase": "CI_CD",
+    "title": "Make CI green",
+    "summary": "Inspect a failing GitHub Actions run, fix the cause, and push so CI reruns.",
+    "skills": ["actions", "logs", "ci"]
+  },
+  {
+    "id": "production-incident",
+    "phase": "INCIDENT",
+    "title": "Recover production",
+    "summary": "Use git log, show, blame, and revert to find and undo the change that degraded production.",
+    "skills": ["log", "show", "blame", "revert"]
+  },
+  {
+    "id": "bisect-bug",
+    "phase": "ADVANCED_GIT",
+    "title": "Bisect a regression",
+    "summary": "Use git bisect to locate the commit that introduced a workshop bug.",
+    "skills": ["bisect", "checkout", "history"]
+  },
+  {
+    "id": "release-notes",
+    "phase": "OPEN_SOURCE",
+    "title": "Cut a workshop release",
+    "summary": "Help draft release notes from merged PRs and tag a version after maintainer merge.",
+    "skills": ["releases", "tags", "changelog"]
+  },
+  {
+    "id": "wrap-up",
+    "phase": "COMPLETE",
+    "title": "Look at the network",
+    "summary": "The graph should now look like an engineering organization. Find your node and the edges you created.",
+    "skills": ["collaboration", "network"]
+  }
+]

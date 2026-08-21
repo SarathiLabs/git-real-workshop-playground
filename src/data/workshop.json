@@ -1,0 +1,26 @@
+{
+  "title": "Git Real",
+  "subtitle": "Engineering Mission Control",
+  "org": "Sarathi Labs",
+  "defaultPhase": "SETUP",
+  "refreshIntervalMs": 30000,
+  "phases": [
+    { "id": "SETUP", "label": "Setup", "emphasis": "participants" },
+    { "id": "FUNDAMENTALS", "label": "Fundamentals", "emphasis": "commits" },
+    { "id": "BRANCHING", "label": "Branching", "emphasis": "branches" },
+    { "id": "COLLABORATION", "label": "Collaboration", "emphasis": "pull-requests" },
+    { "id": "CODE_REVIEW", "label": "Code Review", "emphasis": "reviews" },
+    { "id": "CI_CD", "label": "CI/CD", "emphasis": "ci" },
+    { "id": "INCIDENT", "label": "Incident", "emphasis": "production" },
+    { "id": "ADVANCED_GIT", "label": "Advanced Git", "emphasis": "history" },
+    { "id": "OPEN_SOURCE", "label": "Open Source", "emphasis": "releases" },
+    { "id": "COMPLETE", "label": "Complete", "emphasis": "network" }
+  ],
+  "shortcuts": [
+    { "key": "P", "action": "toggle-presentation" },
+    { "key": "F", "action": "fit-graph" },
+    { "key": "N", "action": "open-network" },
+    { "key": "A", "action": "open-activity" },
+    { "key": "I", "action": "toggle-instructor" }
+  ]
+}

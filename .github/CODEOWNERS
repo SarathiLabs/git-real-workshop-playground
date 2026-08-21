@@ -1,0 +1,6 @@
+# Git Real workshop CODEOWNERS
+# Teaching artifact for branch protection and review routing.
+
+* @SarathiLabs/maintainers
+src/data/ @SarathiLabs/instructors
+.github/ @SarathiLabs/maintainers
