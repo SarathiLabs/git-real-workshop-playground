@@ -17,7 +17,7 @@
   { "id": "voyagers", "name": "Voyagers", "members": [], "category": "general" },
   { "id": "nexus", "name": "Nexus", "members": [], "category": "general" },
   { "id": "orbit", "name": "Orbit", "members": [], "category": "general" },
-  { "id": "vector", "name": "vector", "members": [], "category": "general" },
+  { "id": "vector", "name": "Vector", "members": [], "category": "general" },
   { "id": "cipher", "name": "Cipher", "members": [], "category": "general" },
   { "id": "vertex", "name": "Vertex", "members": [], "category": "general" },
   { "id": "nova", "name": "Nova", "members": [], "category": "general" },
